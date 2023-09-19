@@ -1,0 +1,199 @@
+
+.navbargrad {
+    background-image: linear-gradient(white, #a87dc2e0);
+}
+
+#background {
+    background-color: #A87DC2;
+}
+
+.radialgrad {
+    background-image: radial-gradient(farthest-side, white,#A87DC2);
+}
+
+#navbar {
+    
+
+}
+
+nav {
+    position: fixed;
+    width:100%;
+    z-index: 1;
+}
+
+
+#MainLogo {
+  width:90%;
+  margin-top: auto;
+}
+
+#logoButton {
+    width:15%;
+
+}
+
+#MainLogo:hover {
+    width:100%;
+    transition: ease-in-out 200ms;
+}
+
+body {
+    font-family: 'Roboto';
+    font-weight: 1;
+    overflow-x:hidden;
+}
+
+#verticalline {
+    width:5px;
+    background-image: linear-gradient(90deg, rgb(255,255,255,0), rgb(51, 51, 51), rgb(255,255,255,0));
+    height:100%;
+    position: absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    z-index:-1;
+    
+}
+
+#scrollcontainer {
+    position: absolute;
+    top:100;
+    width:100%;
+    margin-top:10vh;
+}
+
+#maingrid {
+    display: grid;
+    grid-template-columns: 40% 20% 40%;
+    width:100%;
+    color:rgb(51, 51, 51);
+    margin-bottom: 10vw;
+
+}
+
+#msgbutton {
+    color:black;
+    transition: color ease-in-out 300ms ;
+}
+
+#msgbutton:hover {
+    color:#A87DC2;
+    transition: color ease-in-out 300ms ;
+
+}
+
+
+.shakebutton {
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .shakebutton:hover {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    perspective: 1000px;
+  }
+  
+  @keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+    
+    30%, 50%, 70% {
+      transform: translate3d(-2px, 0, 0);
+    }
+    40%, 60% {
+      transform: translate3d(2px, 0, 0);
+  }
+
+}
+
+@media screen and (max-width: 1100px) {
+    #maingrid {
+        grid-template-columns: 100%;
+    }
+
+    #logoButton {
+        width:30%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    #logoButton {
+        width:40%;
+    }
+}
+
+.polaroidgrid {
+    grid-template-rows: 85% 15%;
+}
+
+.justmeagaindownhere {
+    font-family: 'Just Me Again Down Here', cursive;
+}
+
+.polaroidright {
+    grid-column-start: 3;
+    transform: rotate(5deg);
+}
+
+.polaroidleft {
+    grid-column-start: 1;
+    transform: rotate(-7deg);
+}
+
+.yearmarker {
+    grid-column-start: 2;
+}
+
+.polaroidgrid {
+    font-size: 3rem;
+    
+}
+
+@media screen and (max-width: 1100px) {
+    .polaroidright {
+        grid-column-start: 1;
+        transform: rotate(0);
+    }
+
+    .polaroidleft {
+        grid-column-start: 1;
+        transform: rotate(0);
+    }
+
+    .yearmarker {
+        grid-column-start: 1;
+        font-size:small
+    }
+
+    .polaroidgrid {
+        font-size: 2rem;
+        
+    }
+
+
+}
+
+
+@media screen and (max-width: 700px) {
+    #counter, #andsomuchmore, #weddingcounter, #dailymessage {
+        font-size:2.5rem;
+        padding-left:50px;
+        padding-right:50px;
+
+    }
+
+    #scrollcontainer {
+        top:50;
+        margin-top:7vh;
+    }
+
+}
+
+
+
