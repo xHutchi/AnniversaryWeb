@@ -52,15 +52,22 @@ fetch('Data/polaroids.json')
 function compileTimeline() {
     let row = 1;
     let year = "";
-    
+    let left = false;
 
     let timeline = document.getElementById("maingrid");
+    let estimatedRows = estimateGridRowSize(TimeLineObjs);
+    let rowsString = "";
+    for (let i = 0; i < estimatedRows; i++) {
+        rowsString += " auto";
+    }
+    //timeline.style.gridTemplateRows = rowsString;
+    console.log(estimatedRows);
     for (let obj of TimeLineObjs) {
         obj.date = new Date(obj.date);
-        if (year == "" || year != obj.date.getFullYear()) {
+        if (year == "" || year != obj.date.getFullYear() && !isNaN(obj.date)) {
             year = obj.date.getFullYear();
             let yearMarker = compileYearMarker(year);
-            yearMarker.className += ` row-start-`+ row;
+            yearMarker.style.gridRowStart = row;
             row++;
             timeline.appendChild(yearMarker);
             
@@ -68,12 +75,14 @@ function compileTimeline() {
         
         if (obj.imageurl != "" || obj.imageurl == undefined) {
             let polaroid = compilePolaroid(obj);
-            polaroid.className += ` row-start-`+ row;
+            polaroid.style.gridRowStart = row;
             row++;
-            if (Math.random() < 0.5) {
+            if (left) {
                 polaroid.className += ' polaroidright';
+                left = !left;
             } else {
                 polaroid.className += ' polaroidleft';
+                left = !left;
             }
             timeline.appendChild(polaroid);
         } 
@@ -94,25 +103,36 @@ function compilePolaroid(Ele) {
     div.className = "h-full py-2 polaroidgrid md:text-5xl lg:text-5xl";
     let polaroid = document.createElement("div");
     polaroid.className="w-1/2 m-auto bg-white flex flex-col border-8 border-white drop-shadow-xl justmeagaindownhere h-full";
+    if (Ele.imageurl != "" && Ele.imageurl != undefined) {
     let image = document.createElement("img");
     image.src = Ele.imageurl;
     image.className= "w-full h-full object-contain";
+    polaroid.appendChild(image);
+    }
 
     let info = document.createElement("div");
-    info.className = "bg-white w-full flex gap-3 shrink justify-evenly"
+    info.className = "polaroidinfo bg-white w-full flex gap-3 shrink justify-evenly"
+    
 
+    if (Ele.caption != "" && Ele.caption != undefined && !isNaN(Ele.date)) {
     let caption = document.createElement("h2");
     caption.innerHTML = Ele.caption;
     caption.className = "p-0 my-auto text-center"
+    info.appendChild(caption);
 
+    }
+
+    if (Ele.date != "" && Ele.date != undefined && !isNaN(Ele.date)) {
+        console.log(Ele.date.getDate() + " " + Ele.caption)
     let date = document.createElement("h2");
     date.innerHTML = outputDate(Ele.date);
     date.className = "p-0 my-autotext-left"
-
     info.appendChild(date);
-    info.appendChild(caption);
+    }
 
-    polaroid.appendChild(image);
+    
+    
+    
     polaroid.appendChild(info);
     
     div.appendChild(polaroid)
@@ -142,7 +162,7 @@ function compileMoment(ele) {
 
 function compileYearMarker(year) {
     let div = document.createElement("div");
-    div.className = "radialgrad my-5 text-center m-auto px-12 py-3 w-fit rounded-xl text-2xl md:text-5xl tracking-wider font-light yearmarker"
+    div.className = "radialgrad my-5 text-center m-auto px-12 py-3 w-fit rounded-xl text-4xl md:text-5xl tracking-wider font-light yearmarker"
     div.innerHTML = year;
 
     return div;
@@ -152,11 +172,27 @@ function outputDate(Date) {
     let string = "";
     string += Date.getDate();
     string += "."
-    string+= Date.getMonth();
+    string+= Date.getMonth() + 1;
     string += "."
     string += Date.getFullYear();
     return string;
 
+
+}
+
+function estimateGridRowSize(Objs) {
+    let yearsArray = []
+    let count = 0;
+    Objs.forEach( (Obj) => {
+        count++;
+        let date = new Date(Obj.date);
+        if (!yearsArray.includes(date.getFullYear())) {
+            
+            yearsArray.push(date.getFullYear())
+        }
+
+    } )
+    return count + yearsArray.length
 
 }
 

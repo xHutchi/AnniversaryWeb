@@ -168,12 +168,20 @@ body {
 
     .yearmarker {
         grid-column-start: 1;
-        font-size:small
+        font-size:medium
     }
 
     .polaroidgrid {
         font-size: 2rem;
         
+    }
+
+    .polaroidinfo {
+        flex-direction: column;
+    }
+
+    .polaroidinfo h2 {
+        margin: auto
     }
 
 
@@ -191,6 +199,11 @@ body {
     #scrollcontainer {
         top:50;
         margin-top:7vh;
+    }
+
+    .yearmarker {
+        grid-column-start: 1;
+        font-size:large
     }
 
 }
