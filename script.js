@@ -21,12 +21,23 @@ let TimeLineObjs = [];
 
 let dailymessages = [];
 
+let thepassword = "";
+
 /*var testTimelineObj = new TimelineObject();
 testTimelineObj.date = new Date(2020,9,23);
 testTimelineObj.caption = "Began Dating Yeeeee"
 testTimelineObj.imageurl = "Data/TestImage.png"*/
 
 //TimeLineObjs.push(testTimelineObj);
+
+fetch('Data/password.json')
+    .then((response) => response.json())
+    .then((json) => {
+        thepassword = json[0].password;
+        validatePassword();
+        
+    });
+
 
 fetch('Data/polaroids.json')
     .then((response) => response.json())
@@ -55,7 +66,7 @@ function compileTimeline() {
             
         } 
         
-        if (obj.imageurl != "") {
+        if (obj.imageurl != "" || obj.imageurl == undefined) {
             let polaroid = compilePolaroid(obj);
             polaroid.className += ` row-start-`+ row;
             row++;
@@ -65,17 +76,14 @@ function compileTimeline() {
                 polaroid.className += ' polaroidleft';
             }
             timeline.appendChild(polaroid);
-        } else {
+        } 
+        /*else {
             let moment = compileMoment(obj);
             moment.className += ` row-start-`+ row;
             row++;
-            if (Math.random() < 0.5) {
-                polaroid.className += ' polaroidright';
-            } else {
-                polaroid.className += ' polaroidleft';
-            }
+            
             timeline.appendChild(moment);
-        }
+        }*/
     }
     }
 
@@ -171,7 +179,6 @@ function updateClock() {
     var s = diff;
 
     if (d <= 0) {
-        console.log("yeop)");
         XYears(y, true)
     }
     XYears(0, false);
@@ -191,7 +198,6 @@ anniversarymessageshown = false;
 
 function XYears(y, bool) {
     if (!anniversarymessageshown && bool) {
-        console.log("yep")
         
         let div = document.createElement("div");
         div.className = "radialgrad my-5 text-center m-auto px-12 py-3 w-fit rounded-xl text-3xl tracking-wider font-light";
@@ -269,7 +275,6 @@ function testDatesJson() {
         //console.log(newday.toDateString() + " " + weddingDate.toDateString());
 
     }
-    console.log(JSON.stringify(array));
 
 
 }
@@ -297,7 +302,6 @@ function checkDailyMessage() {
     let today = new Date().toDateString();
     if (localStorage.getItem("dailyMessageOpened") && localStorage.getItem("lastMessageOpened") == today) {
         setDailyMessage(localStorage.getItem("dailyMessage"))
-        console.log(localStorage);
     }
 
 }
@@ -323,7 +327,6 @@ function newDailyMessage() {
             localStorage.setItem("dailyMessage", msg.message)
             localStorage.setItem("dailyMessageOpened", true)
             localStorage.setItem("lastMessageOpened", msg.date)
-            console.log(localStorage)
         }
     }
 
@@ -347,3 +350,67 @@ function setDailyMessage(message) {
             dailymessagediv.appendChild(tmrwdiv);
 
 }
+
+//main body display none if not password correct
+//entered password is hash
+//if local storage of recently entered password is == hash then display true
+
+function displayBody(bool) {
+    let bodyDiv = document.getElementById("maincontent");
+    let passwordDiv = document.getElementById("password-parent")
+    if (bool) {
+    bodyDiv.style.display = "block";
+    passwordDiv.style.display="none";
+    } else {
+        bodyDiv.style.display = "none";
+        passwordDiv.style.display= "flex";
+    }
+
+}
+
+
+
+
+
+function validatePassword(password) {
+    if (checkPasswordEntered(password)) {
+        displayBody(true);
+        
+    } else {
+        displayBody(false);
+    
+
+}
+}
+
+
+function checkPasswordEntered(password) {
+    if (password == "" || password == undefined) {
+    let enteredPassword = localStorage.getItem("enteredPassword");
+
+    return (thepassword == enteredPassword);
+    } else {
+        localStorage.setItem("enteredPassword", password)
+        return (thepassword == password);
+    }
+
+   
+}
+
+
+function enterPassword() {
+    let text = document.getElementById("passwordtext").value;
+    validatePassword(text);
+}
+
+document.getElementById("enter_icon").addEventListener("click", () => {
+    enterPassword()
+})
+
+document.getElementById("passwordtext").addEventListener("keydown", (e) => {
+    if (e.code == "Enter") {
+        enterPassword();
+    }
+})
+
+

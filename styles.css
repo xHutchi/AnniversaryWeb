@@ -195,5 +195,81 @@ body {
 
 }
 
+#password-parent {
+    height:100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.password-container {
+    background-color: #353b48;
+    border-radius: 30px;
+    padding: 10px;
+    width: 50vw;
+    height:5vw;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, .10), 0 15px 12px rgba(0, 0, 0, .15);
+    display: flex;
+    align-items: center;
+  }
+  
+  .password_input {
+    color: white;
+    border: 0;
+    outline: 0;
+    background: none;
+    line-height: 40px;
+    transition: width .4s linear;
+    padding: 0 10px;
+    width:100%;
+    font-weight: 300;
+    font-size:large;
+    caret-color: #A87DC2;
+  }
+
+  #enter_icon {
+    color:rgb(180, 180, 180);
+    padding: 0.5rem;
+    padding-right:1rem;
+  }
+
+  .enter_icon:hover {
+    color:white;
+  }
+  
+  #enter_icon i {
+    width:100%;
+  }
+
+
+  @media screen and (max-width: 900px) {
+    .password-container {
+        width: 80%;
+        height:15vw;
+    }
+
+    #enter_icon {
+        font-size:10px;
+      }
+
+
+  }
+
+  @media screen and (min-width: 900px) {
+    .password-container {
+        width:50%;
+
+    }
+
+    #enter_icon {
+        font-size:15px;
+      }
+
+
+  }
+
+
+
 
 
