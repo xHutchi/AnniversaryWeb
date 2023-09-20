@@ -283,7 +283,7 @@ function testDatesJson() {
 
 let msgbutton = document.getElementById("msgbutton");
 msgbutton.addEventListener("click", () => {
-    fetch('Data/messages.json')
+    fetch('Data/testmessages.json')
     .then((response) => response.json())
     .then((json) => {
         json.forEach((ele) => {
@@ -300,6 +300,7 @@ checkDailyMessage();
 
 function checkDailyMessage() {
     let today = new Date().toDateString();
+    //let today = new Date(2023,9,27).toDateString();
     if (localStorage.getItem("dailyMessageOpened") && localStorage.getItem("lastMessageOpened") == today) {
         setDailyMessage(localStorage.getItem("dailyMessage"))
     }
@@ -310,9 +311,10 @@ function checkDailyMessage() {
 
 function newDailyMessage() {
     let today = new Date().toDateString();
+    //let today = new Date(2023,9,27).toDateString();
     let dailymessagediv = document.getElementById("dailymessage");
     for (msg of dailymessages) {
-        //console.log(msg.date + " " + today)
+        console.log(msg.date + " " + today)
         if (msg.date == today) {
             dailymessagediv.innerHTML = "";
             let msgdiv = document.createElement("h2");
