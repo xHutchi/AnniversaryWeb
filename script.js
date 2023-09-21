@@ -23,6 +23,8 @@ let dailymessages = [];
 
 let thepassword = "";
 
+let mobile = null;
+
 /*var testTimelineObj = new TimelineObject();
 testTimelineObj.date = new Date(2020,9,23);
 testTimelineObj.caption = "Began Dating Yeeeee"
@@ -38,7 +40,7 @@ fetch('Data/password.json')
         
     });
 
-
+function fetchPolaroids() {
 fetch('Data/polaroids.json')
     .then((response) => response.json())
     .then((json) => {
@@ -47,6 +49,10 @@ fetch('Data/polaroids.json')
         compileTimeline();
         
     });
+
+}
+
+fetchPolaroids();
 
 
 function compileTimeline() {
@@ -61,10 +67,11 @@ function compileTimeline() {
         rowsString += " auto";
     }
     //timeline.style.gridTemplateRows = rowsString;
-    console.log(estimatedRows);
+
     for (let obj of TimeLineObjs) {
         obj.date = new Date(obj.date);
         if (year == "" || year != obj.date.getFullYear() && !isNaN(obj.date)) {
+            row++;
             year = obj.date.getFullYear();
             let yearMarker = compileYearMarker(year);
             yearMarker.style.gridRowStart = row;
@@ -76,10 +83,16 @@ function compileTimeline() {
         if (obj.imageurl != "" || obj.imageurl == undefined) {
             let polaroid = compilePolaroid(obj);
             polaroid.style.gridRowStart = row;
-            row++;
+            if (mobile) {
+                console.log("row")
+                row++;
+            }
             if (left) {
                 polaroid.className += ' polaroidright';
                 left = !left;
+                if (!mobile) {
+                row++;
+                }
             } else {
                 polaroid.className += ' polaroidleft';
                 left = !left;
@@ -100,13 +113,13 @@ function compileTimeline() {
 
 function compilePolaroid(Ele) {
     let div = document.createElement("div");
-    div.className = "h-full py-2 polaroidgrid md:text-5xl lg:text-5xl";
+    div.className = "h-full py-2 polaroidgrid md:text-5xl lg:text-5xl flex items-center";
     let polaroid = document.createElement("div");
-    polaroid.className="w-1/2 m-auto bg-white flex flex-col border-8 border-white drop-shadow-xl justmeagaindownhere h-full";
+    polaroid.className="polaroid w-1/2 mx-auto my-auto bg-white flex flex-col border-8 border-white drop-shadow-xl justmeagaindownhere";
     if (Ele.imageurl != "" && Ele.imageurl != undefined) {
     let image = document.createElement("img");
     image.src = Ele.imageurl;
-    image.className= "w-full h-full object-contain";
+    image.className= "w-full";
     polaroid.appendChild(image);
     }
 
@@ -123,7 +136,7 @@ function compilePolaroid(Ele) {
     }
 
     if (Ele.date != "" && Ele.date != undefined && !isNaN(Ele.date)) {
-        console.log(Ele.date.getDate() + " " + Ele.caption)
+
     let date = document.createElement("h2");
     date.innerHTML = outputDate(Ele.date);
     date.className = "p-0 my-autotext-left"
@@ -350,7 +363,6 @@ function newDailyMessage() {
     //let today = new Date(2023,9,27).toDateString();
     let dailymessagediv = document.getElementById("dailymessage");
     for (msg of dailymessages) {
-        console.log(msg.date + " " + today)
         if (msg.date == today) {
             dailymessagediv.innerHTML = "";
             let msgdiv = document.createElement("h2");
@@ -450,5 +462,61 @@ document.getElementById("passwordtext").addEventListener("keydown", (e) => {
         enterPassword();
     }
 })
+
+
+
+function isMobile() {
+if (mobile != null) {
+  if (screen.width < 1100 && !mobile) {
+    removeAllChildren(document.getElementById("maingrid"))
+    mobile = true;
+    if (TimeLineObjs != undefined) {
+        compileTimeline();
+    } else {
+        fetchPolaroids();
+    }
+  }
+  if (screen.width >= 1100 && mobile) {
+    removeAllChildren(document.getElementById("maingrid"))
+    mobile = false;
+    if (TimeLineObjs != undefined) {
+        compileTimeline();
+    } else {
+        fetchPolaroids();
+    }
+  }
+} else {
+    if (screen.width < 1100) {
+        removeAllChildren(document.getElementById("maingrid"))
+        mobile = true;
+        console.log(TimeLineObjs)
+        
+        if (TimeLineObjs != undefined) {
+            compileTimeline();
+        } else {
+            fetchPolaroids();
+        }
+      }
+      if (screen.width >= 1100) {
+        removeAllChildren(document.getElementById("maingrid"))
+        mobile = false;
+        if (TimeLineObjs != undefined) {
+            compileTimeline();
+        } else {
+            fetchPolaroids();
+        }
+      }
+}
+}
+
+let isMobileCheck = setInterval(isMobile, 500);
+
+function removeAllChildren(parent) { //used when wiping a dynamic DOM element
+    
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
 
 
