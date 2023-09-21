@@ -190,6 +190,15 @@ body {
         margin: auto
     }
 
+    #duckarea {
+        flex-direction: column;
+        margin: auto;
+    }
+
+    .duckdiv {
+        margin: auto;
+    }
+
 
 }
 
@@ -285,6 +294,12 @@ body {
         font-size:15px;
       }
 
+
+  }
+
+
+  .duckdiv { 
+    background: #bfc20093;
 
   }
 
