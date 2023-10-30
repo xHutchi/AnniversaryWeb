@@ -556,7 +556,7 @@ function feedDuckEgg(DuckEgg) {
     } else {
         DuckEgg.heart += 1/16;
     }
-    //DuckEgg.fedToday = true;
+    DuckEgg.fedToday = true;
     DuckEgg.lastfed = new Date().toDateString();
     reRenderDuckEggs();
 
