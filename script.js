@@ -534,7 +534,6 @@ function checkFeed(DuckEgg) {
     let todaystring = today.toDateString();
     if (todaystring != DuckEgg.lastfed) {
         DuckEgg.fedToday = false;
-
         let lastupdated = new Date(DuckEgg.lastupdated);
         let dayssince = Math.floor((today.getTime() - lastupdated.getTime()) / (1000 * 3600 * 24));
         console.log(lastupdated.toDateString() + " " + dayssince +  " " + DuckEgg.heart);
@@ -563,12 +562,15 @@ function feedDuckEgg(DuckEgg) {
 
 }
 
-function CreateDuckEgg() {
+function CreateDuckEgg(Ele) {
+    if (!Ele.Egged) {
     let newEgg = new DuckEgg();
     newEgg.heart = 0;
     newEgg.isEgg = true;
     newEgg.fedToday = false;
     DuckEggs.push(newEgg);
+    }
+    Ele.Egged = true;
     reRenderDuckEggs();
 
 }
@@ -724,11 +726,14 @@ function reRenderDuckEggs() {
             let Eggbutton = document.createElement("button");
             Eggbutton.className = "justmeagaindownhere  hover:bg-gray-500 bg-gray-300 rounded-2xl w-full p-3 text-4xl disabled:bg-gray-700 ";
             Eggbutton.innerText = "Egg";
-            if (Ele.heart < 1) {
+            if (Ele.heart < 1 || Ele.Egged) {
+                if (Ele.Egged) {
+                    Eggbutton.innerText = "Egged"
+                }
                 Eggbutton.disabled = true;
             } 
             Eggbutton.addEventListener("click", (a) => {
-                CreateDuckEgg();
+                CreateDuckEgg(Ele);
             })
 
             duckbuttons.appendChild(Eggbutton);
