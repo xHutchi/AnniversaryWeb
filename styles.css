@@ -193,6 +193,7 @@ body {
     #duckarea {
         flex-direction: column;
         margin: auto;
+        overflow:scroll;
     }
 
     .duckdiv {

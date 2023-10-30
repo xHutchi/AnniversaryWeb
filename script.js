@@ -552,11 +552,11 @@ function checkFeed(DuckEgg) {
 function feedDuckEgg(DuckEgg) {
     if (!DuckEgg.fedToday)
     if (DuckEgg.isEgg) {
-        DuckEgg.heart += 0.25
+        DuckEgg.heart += 1
     } else {
         DuckEgg.heart += 1/16;
     }
-    DuckEgg.fedToday = true;
+    //DuckEgg.fedToday = true;
     DuckEgg.lastfed = new Date().toDateString();
     reRenderDuckEggs();
 
